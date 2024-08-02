@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Entity" load_steps=2 format=3 uid="uid://wm24xs55vvgg"]
+
+[ext_resource type="Script" path="res://Scripts/Entity.cs" id="1_1byec"]
+
+[resource]
+script = ExtResource("1_1byec")
+Archetype = 0

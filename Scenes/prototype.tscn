@@ -1,6 +1,39 @@
-[gd_scene load_steps=2 format=3 uid="uid://cpuugngc5va86"]
+[gd_scene load_steps=8 format=3 uid="uid://cpuugngc5va86"]
 
 [ext_resource type="Script" path="res://Initi.cs" id="1_73f10"]
+[ext_resource type="Script" path="res://Scripts/DynamicEntity.cs" id="2_gnvoq"]
+[ext_resource type="Resource" uid="uid://wm24xs55vvgg" path="res://Resources/Entities/Player.tres" id="3_wnsjo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5twka"]
+size = Vector2(16, 16)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5k11a"]
+size = Vector2(32, 32)
+
+[sub_resource type="Animation" id="Animation_h2kb4"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c24fo"]
+_data = {
+"RESET": SubResource("Animation_h2kb4")
+}
 
 [node name="Prototype" type="Node2D"]
 script = ExtResource("1_73f10")
+
+[node name="Entity" type="CharacterBody2D" parent="."]
+script = ExtResource("2_gnvoq")
+Entity = ExtResource("3_wnsjo")
+
+[node name="Col" type="CollisionShape2D" parent="Entity"]
+shape = SubResource("RectangleShape2D_5twka")
+
+[node name="Sprite" type="Sprite2D" parent="Entity"]
+texture = SubResource("PlaceholderTexture2D_5k11a")
+hframes = 2
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Entity"]
+libraries = {
+"": SubResource("AnimationLibrary_c24fo")
+}

@@ -2,13 +2,15 @@ using Godot;
 
 namespace Entities
 {
+    [GlobalClass]
     public partial class Stats : Resource 
     {
-        public int Health;
-        public int Stamina;
-        public int Mana;
-        public int MoveSpeed;
+        [Export] public int Health;
+        [Export] public int Stamina;
+        [Export] public int Mana;
+        [Export] public int MoveSpeed;
 
+        public Stats() : this(0,0,0,0) {}
         public Stats(
             int health,
             int stamina,
@@ -19,6 +21,6 @@ namespace Entities
             MoveSpeed = movespeed;
             Mana = mana;
             Stamina = stamina;
-        }       
+        }
     }
 }
