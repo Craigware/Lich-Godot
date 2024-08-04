@@ -8,7 +8,6 @@ namespace Entities
 		WEAPON
 	}
 
-	[Tool]
 	[GlobalClass]
 	public partial class Item : Resource
 	{

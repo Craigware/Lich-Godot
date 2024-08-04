@@ -1,39 +1,61 @@
-[gd_scene load_steps=8 format=3 uid="uid://cpuugngc5va86"]
+[gd_scene load_steps=9 format=3 uid="uid://cpuugngc5va86"]
 
 [ext_resource type="Script" path="res://Initi.cs" id="1_73f10"]
-[ext_resource type="Script" path="res://Scripts/DynamicEntity.cs" id="2_gnvoq"]
+[ext_resource type="Script" path="res://Scripts/PlayerEntity.cs" id="2_0qb7e"]
 [ext_resource type="Resource" uid="uid://wm24xs55vvgg" path="res://Resources/Entities/Player.tres" id="3_wnsjo"]
-[ext_resource type="Script" path="res://Scripts/Inventory.cs" id="4_m1s4g"]
+[ext_resource type="Texture2D" uid="uid://dk6b3poch1dcu" path="res://Assets/testbg.png" id="4_37ser"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5twka"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mbaja"]
 size = Vector2(16, 16)
 
-[sub_resource type="Animation" id="Animation_h2kb4"]
-length = 0.001
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6plcu"]
+size = Vector2(16, 16)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_c24fo"]
-_data = {
-"RESET": SubResource("Animation_h2kb4")
-}
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vlfux"]
+states/Start/position = Vector2(731, 100)
+graph_offset = Vector2(219, -9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8k33d"]
+size = Vector2(20, 212)
 
 [node name="Prototype" type="Node2D"]
 script = ExtResource("1_73f10")
 
-[node name="Entity" type="CharacterBody2D" parent="."]
-script = ExtResource("2_gnvoq")
+[node name="Testbg" type="Sprite2D" parent="."]
+position = Vector2(320, 175)
+texture = ExtResource("4_37ser")
+
+[node name="PlayerEntity" type="CharacterBody2D" parent="."]
+position = Vector2(213, 136)
+script = ExtResource("2_0qb7e")
 Entity = ExtResource("3_wnsjo")
 
-[node name="Col" type="CollisionShape2D" parent="Entity"]
-shape = SubResource("RectangleShape2D_5twka")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerEntity"]
+shape = SubResource("RectangleShape2D_mbaja")
 
-[node name="Sprite" type="Sprite2D" parent="Entity"]
-hframes = 2
-vframes = 2
+[node name="Sprite2D" type="Sprite2D" parent="PlayerEntity"]
+texture = SubResource("PlaceholderTexture2D_6plcu")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entity"]
-libraries = {
-"": SubResource("AnimationLibrary_c24fo")
-}
+[node name="AnimationTree" type="AnimationTree" parent="PlayerEntity"]
+tree_root = SubResource("AnimationNodeStateMachine_vlfux")
+parameters/current_length = 0.0
+parameters/current_position = 0.0
+parameters/current_delta = 0.0
+parameters/End/current_length = 0.0
+parameters/End/current_position = 0.0
+parameters/End/current_delta = 0.0
+parameters/Start/current_length = 0.0
+parameters/Start/current_position = 0.0
+parameters/Start/current_delta = 0.0
 
-[node name="Inventory" type="Node" parent="Entity"]
-script = ExtResource("4_m1s4g")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerEntity"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(288, 162)
+zoom = Vector2(2, 2)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(24, 116)
+shape = SubResource("RectangleShape2D_8k33d")

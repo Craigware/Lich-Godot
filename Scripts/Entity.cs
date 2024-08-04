@@ -2,26 +2,18 @@ using Godot;
 
 namespace Entities 
 {
-    public enum EntityArchetypes {
-        PLAYER
-    }
-
-    [Tool]
     [GlobalClass]
     public partial class Entity : Resource
     {
-        [Export] public EntityArchetypes Archetype;
-        [Export] public Texture2D SpriteSheet;
+        [Export] public string Name;
         [Export] public Stats BaseStats;
         
-        public Entity() : this(EntityArchetypes.PLAYER, null, null) {}
+        public Entity() : this("", null) {}
         public Entity(
-            EntityArchetypes archetype,
-            Texture2D spritesheet,
+            string name,
             Stats basestats
         ) {
-            Archetype = archetype;
-            SpriteSheet = spritesheet;
+            Name = name;
             BaseStats = basestats;
         }
     }

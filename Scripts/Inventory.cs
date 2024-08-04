@@ -2,7 +2,6 @@ using Godot;
 
 namespace Entities
 {
-	[Tool]
 	[GlobalClass]
 	public partial class Inventory : Node
 	{
