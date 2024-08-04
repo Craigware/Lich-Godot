@@ -3,12 +3,10 @@
 [ext_resource type="Script" path="res://Initi.cs" id="1_73f10"]
 [ext_resource type="Script" path="res://Scripts/DynamicEntity.cs" id="2_gnvoq"]
 [ext_resource type="Resource" uid="uid://wm24xs55vvgg" path="res://Resources/Entities/Player.tres" id="3_wnsjo"]
+[ext_resource type="Script" path="res://Scripts/Inventory.cs" id="4_m1s4g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5twka"]
 size = Vector2(16, 16)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5k11a"]
-size = Vector2(32, 32)
 
 [sub_resource type="Animation" id="Animation_h2kb4"]
 length = 0.001
@@ -29,7 +27,6 @@ Entity = ExtResource("3_wnsjo")
 shape = SubResource("RectangleShape2D_5twka")
 
 [node name="Sprite" type="Sprite2D" parent="Entity"]
-texture = SubResource("PlaceholderTexture2D_5k11a")
 hframes = 2
 vframes = 2
 
@@ -37,3 +34,6 @@ vframes = 2
 libraries = {
 "": SubResource("AnimationLibrary_c24fo")
 }
+
+[node name="Inventory" type="Node" parent="Entity"]
+script = ExtResource("4_m1s4g")
