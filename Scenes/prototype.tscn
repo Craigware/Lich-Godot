@@ -1,9 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpuugngc5va86"]
+[gd_scene load_steps=16 format=3 uid="uid://cpuugngc5va86"]
 
 [ext_resource type="Script" path="res://Initi.cs" id="1_73f10"]
 [ext_resource type="Script" path="res://Scripts/PlayerEntity.cs" id="2_0qb7e"]
 [ext_resource type="Resource" uid="uid://wm24xs55vvgg" path="res://Resources/Entities/Player.tres" id="3_wnsjo"]
 [ext_resource type="Texture2D" uid="uid://dk6b3poch1dcu" path="res://Assets/testbg.png" id="4_37ser"]
+[ext_resource type="Script" path="res://Scripts/EnemyEntity.cs" id="5_ys1xr"]
+[ext_resource type="Script" path="res://Scripts/Stats.cs" id="6_4273d"]
+[ext_resource type="Script" path="res://Scripts/Entity.cs" id="7_b7g7p"]
+[ext_resource type="Script" path="res://Scenes/GlobalDebug.cs" id="8_83ttq"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_by3k2"]
+vertices = PackedVector2Array(-0.0078125, 63.2031, 1.20313, 79, -150, 79, -150, -80.0625, 2.39063, -0.453125, 150, -81.9297, 43.6406, 1.42969, 150, 79, 46.6172, 79)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3), PackedInt32Array(4, 3, 5, 6), PackedInt32Array(6, 5, 7, 8)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-160, -90, -160, 89, 12, 89, 10, 63, 12, 10, 34, 11, 37, 89, 160, 89, 160, -92)])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbaja"]
 size = Vector2(16, 16)
@@ -15,18 +24,36 @@ size = Vector2(16, 16)
 states/Start/position = Vector2(731, 100)
 graph_offset = Vector2(219, -9)
 
+[sub_resource type="Resource" id="Resource_uxd17"]
+script = ExtResource("6_4273d")
+Health = 10.0
+Stamina = 10.0
+Mana = 10.0
+Friction = 10.0
+MoveSpeedRamp = 100.0
+MoveSpeed = 64.0
+
+[sub_resource type="Resource" id="Resource_adtxi"]
+script = ExtResource("7_b7g7p")
+Name = "Skeleton"
+EntityType = 2
+BaseStats = SubResource("Resource_uxd17")
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8k33d"]
 size = Vector2(20, 212)
 
 [node name="Prototype" type="Node2D"]
 script = ExtResource("1_73f10")
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_by3k2")
+
 [node name="Testbg" type="Sprite2D" parent="."]
-position = Vector2(320, 175)
+position = Vector2(31, -25)
 texture = ExtResource("4_37ser")
 
 [node name="PlayerEntity" type="CharacterBody2D" parent="."]
-position = Vector2(213, 136)
+position = Vector2(85, 63)
 script = ExtResource("2_0qb7e")
 Entity = ExtResource("3_wnsjo")
 
@@ -50,12 +77,99 @@ parameters/Start/current_delta = 0.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerEntity"]
 
+[node name="EntityDebug" type="RichTextLabel" parent="PlayerEntity"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 72.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 8
+
+[node name="EnemyEntity" type="CharacterBody2D" parent="."]
+position = Vector2(-46, 25)
+script = ExtResource("5_ys1xr")
+Entity = SubResource("Resource_adtxi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyEntity"]
+shape = SubResource("RectangleShape2D_mbaja")
+
+[node name="Sprite2D" type="Sprite2D" parent="EnemyEntity"]
+texture = SubResource("PlaceholderTexture2D_6plcu")
+
+[node name="AnimationTree" type="AnimationTree" parent="EnemyEntity"]
+tree_root = SubResource("AnimationNodeStateMachine_vlfux")
+parameters/current_length = 0.0
+parameters/current_position = 0.0
+parameters/current_delta = 0.0
+parameters/End/current_length = 0.0
+parameters/End/current_position = 0.0
+parameters/End/current_delta = 0.0
+parameters/Start/current_length = 0.0
+parameters/Start/current_position = 0.0
+parameters/Start/current_delta = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyEntity"]
+
+[node name="EntityDebug" type="RichTextLabel" parent="EnemyEntity"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 72.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 8
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="EnemyEntity"]
+
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(288, 162)
-zoom = Vector2(2, 2)
+zoom = Vector2(4, 4)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(24, 116)
 shape = SubResource("RectangleShape2D_8k33d")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(-129, -82)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(24, 116)
+shape = SubResource("RectangleShape2D_8k33d")
+
+[node name="GlobalDebugCanvas" type="CanvasLayer" parent="."]
+
+[node name="GlobalDebug" type="Control" parent="GlobalDebugCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_83ttq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GlobalDebugCanvas/GlobalDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GlobalDebugCanvas/GlobalDebug/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FPS" type="RichTextLabel" parent="GlobalDebugCanvas/GlobalDebug/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FPS: "
