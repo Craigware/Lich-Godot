@@ -27,7 +27,8 @@ namespace Entities
             if (showDebug) {
                 var debug = "";
                 debug += Entity.Name + "\n";
-                debug += Position.Round().ToString();
+                debug += Position.Round().ToString() + "\n";
+                debug += CurrentStats.Health + "/" + Entity.BaseStats.Health;
                 HUDDebug(debug);
             } else {
                 HUDDebug("");

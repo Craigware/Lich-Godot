@@ -60,7 +60,6 @@ namespace Entities
                 }
             }
             MoveAndSlide();
-            // MoveAndCollide(Velocity * (float)delta);
         }
     }
 }
