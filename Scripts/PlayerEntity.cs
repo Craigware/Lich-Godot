@@ -8,6 +8,7 @@ namespace Entities
         MOVING,
         ROLLING,
         ATTACKING,
+        CHANNELING,
         STUNNED
     }
 
@@ -15,10 +16,16 @@ namespace Entities
     public partial class PlayerEntity : DynamicEntity 
     {
         PlayerState playerState;
-		public Inventory Inventory;
+		[Export] public Inventory Inventory;
 
         public override void _Ready() {
             base._Ready();
+            if (Inventory == null) {
+                Inventory = new();
+            }
+
+            Weapon weapon = new(10,0,0,0,"Weapon", null, AttackEffect.NORMAL);
+            Inventory.AddItemToInventory(weapon);
         }
 
         public override void _Input(InputEvent @event){
@@ -27,6 +34,12 @@ namespace Entities
                 if (playerState != PlayerState.ROLLING) {
                     Velocity = Facing * Entity.BaseStats.MoveSpeed * 2f;
                     playerState = PlayerState.ROLLING;
+                }
+            }
+
+            if (Input.IsActionJustPressed("Click")){
+                if (Inventory.GetSelectedItem() is Weapon w) {
+                    Attacks.UseEffect(w, GetParent().GetNode("EnemyEntity"));
                 }
             }
         }
@@ -60,6 +73,10 @@ namespace Entities
                 }
             }
             MoveAndSlide();
+        }
+
+        public override void Die() {
+
         }
     }
 }

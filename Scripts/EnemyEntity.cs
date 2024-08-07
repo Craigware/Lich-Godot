@@ -20,13 +20,14 @@ namespace Entities
 
 		Node2D[] TypesToTarget;
 		Node2D Target;
-		NavigationAgent2D nav;
 
 		public override void _Ready() {
 			base._Ready();
-			nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
 			Target = GetParent().GetNode<Node2D>("PlayerEntity");
 		}
+
+        public void PathFindToTarget() {
+        }
 
 		public override void _PhysicsProcess(double delta) {
 		}

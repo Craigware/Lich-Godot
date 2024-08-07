@@ -2,25 +2,19 @@ using Godot;
 
 namespace Entities
 {
-	public enum ItemType
-	{
-		DROP,
-		WEAPON
-	}
-
 	[GlobalClass]
 	public partial class Item : Resource
 	{
 		[Export] public string Name;
-		[Export] public ItemType ItemType;
-
-		public Item() : this("",0) {}
+        [Export] public Texture2D Sprite;
+	    
+        public Item() : this("",null) {}
 		public Item(
 			string name,
-			ItemType itemtype
+            Texture2D sprite
 		) {
 			Name = name;
-			ItemType = itemtype;
+            Sprite = sprite;
 		}
 	}
 }

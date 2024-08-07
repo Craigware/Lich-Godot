@@ -35,6 +35,28 @@ namespace Entities
             }
         }
 
+        public void UpdateHealth(int amount) {
+            CurrentStats.Health += amount;
+            if (CurrentStats.Health <= 0) {
+                Die();
+            }
+        }
+        public void Hurt(int amount) { UpdateHealth(-amount); }
+        public void Heal(int amount) { UpdateHealth(amount); }
+
+        public void UpdateHealth(float amount) {
+            CurrentStats.Health += amount;
+            if (CurrentStats.Health <= 0) {
+                Die();
+            }
+        }
+        public void Hurt(float amount) { UpdateHealth(-amount); }
+        public void Heal(float amount) { UpdateHealth(amount); }
+
+        public virtual void Die() {
+            QueueFree();
+        }
+
         public void HUDDebug(string message) {
             var debugScreenText = GetNode<RichTextLabel>("EntityDebug");
             debugScreenText.Text = message;
