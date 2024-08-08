@@ -24,7 +24,7 @@ namespace Entities
                 Inventory = new();
             }
 
-            Weapon weapon = new(10,0,0,0,"Weapon", null, AttackEffect.NORMAL);
+            Weapon weapon = new(10,0,0,0,1,"Weapon", null, AttackEffect.NORMAL);
             Inventory.AddItemToInventory(weapon);
         }
 
@@ -39,7 +39,11 @@ namespace Entities
 
             if (Input.IsActionJustPressed("Click")){
                 if (Inventory.GetSelectedItem() is Weapon w) {
-                    Attacks.UseEffect(w, GetParent().GetNode("EnemyEntity"));
+                    Vector2 vec = new();
+                    vec.X = new Random().Next(-50,50);
+                    vec.Y = new Random().Next(-50,50);
+                    Pickup pickup = new(new Item("this", null), vec);
+                    GetParent().AddChild(pickup);
                 }
             }
         }

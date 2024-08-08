@@ -46,6 +46,7 @@ namespace Entities
         }
 
         public void AddItemToInventory(Item item, int amount=1) {
+            if (item == null) return;
             foreach(var inventoryItem in inventory) {
                 if (inventoryItem == null) continue;
                 if (inventoryItem.Item == item) {
@@ -62,6 +63,9 @@ namespace Entities
                 }
             }
         }
+        public void Add(Item item, int amount=1) {
+            AddItemToInventory(item, amount);
+        }
 
         public void RemoveItemFromInventory(Item item, int amount=1) {
             for (int i = 0; i < inventory.Length; i++) {
@@ -76,6 +80,9 @@ namespace Entities
                     return;
                 }
             }
+        }
+        public void Remove(Item item, int amount=1) {
+            RemoveItemFromInventory(item, amount);
         }
 
         public bool ContainsItem(Item item) {

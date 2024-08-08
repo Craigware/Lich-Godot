@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cpuugngc5va86"]
+[gd_scene load_steps=18 format=3 uid="uid://cpuugngc5va86"]
 
 [ext_resource type="Script" path="res://Initi.cs" id="1_73f10"]
 [ext_resource type="Script" path="res://Scripts/PlayerEntity.cs" id="2_0qb7e"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://Scripts/EnemyEntity.cs" id="5_ys1xr"]
 [ext_resource type="Script" path="res://Scripts/Stats.cs" id="6_4273d"]
 [ext_resource type="Script" path="res://Scripts/Entity.cs" id="7_b7g7p"]
+[ext_resource type="Script" path="res://Scripts/Pickup.cs" id="8_vs2bl"]
+[ext_resource type="Script" path="res://Scripts/TransportLocation.cs" id="9_ejkch"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbaja"]
 size = Vector2(16, 16)
@@ -32,6 +34,14 @@ script = ExtResource("7_b7g7p")
 Name = "Skeleton"
 EntityType = 2
 BaseStats = SubResource("Resource_uxd17")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2mpix"]
+radius = 8.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6pwhe"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nlonc"]
 
 [node name="Prototype" type="Node2D"]
 script = ExtResource("1_73f10")
@@ -59,10 +69,21 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="FPS" type="RichTextLabel" parent="GlobalDebugCanvas/GlobalDebug/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GlobalDebugCanvas/GlobalDebug/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FPS" type="RichTextLabel" parent="GlobalDebugCanvas/GlobalDebug/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "FPS: "
+
+[node name="Entities" type="RichTextLabel" parent="GlobalDebugCanvas/GlobalDebug/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Entities: "
 
 [node name="PlayerEntity" type="CharacterBody2D" parent="."]
 position = Vector2(85, 63)
@@ -142,3 +163,28 @@ theme_override_font_sizes/normal_font_size = 8
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
+
+[node name="Pickup" type="Area2D" parent="."]
+script = ExtResource("8_vs2bl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup"]
+shape = SubResource("CircleShape2D_2mpix")
+
+[node name="Sprite2D" type="Sprite2D" parent="Pickup"]
+texture = SubResource("PlaceholderTexture2D_6pwhe")
+
+[node name="TransportLocation" type="Area2D" parent="." node_paths=PackedStringArray("To")]
+position = Vector2(80, -15)
+script = ExtResource("9_ejkch")
+To = NodePath("../TransportLocation2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TransportLocation"]
+shape = SubResource("RectangleShape2D_nlonc")
+
+[node name="TransportLocation2" type="Area2D" parent="." node_paths=PackedStringArray("To")]
+position = Vector2(-39, -36)
+script = ExtResource("9_ejkch")
+To = NodePath("../TransportLocation")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TransportLocation2"]
+shape = SubResource("RectangleShape2D_nlonc")

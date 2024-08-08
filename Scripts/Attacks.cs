@@ -7,7 +7,7 @@ namespace Entities
     }
 
     public static class Attacks {
-        public static void UseEffect(Weapon weapon, Node target) {
+        public static void UseWeapon(Weapon weapon, Node target) {
             if (target is not DynamicEntity or StaticEntity) throw new System.Exception("Attempted to use effect on non entity type.");
             
             switch (weapon.WeaponEffectID) {
@@ -22,7 +22,7 @@ namespace Entities
             }
         }
 
-        public static void UseEffect(Weapon weapon, Vector2 position) {
+        public static void UseWeapon(Weapon weapon, Vector2 position) {
             switch(weapon.WeaponEffectID) {
                 case AttackEffect.NORMAL:
                     break;
